@@ -1,274 +1,184 @@
-<!-- PROJECT TITLE -->
-<br />
-<div align="center">
-<h3 align="center">plant_care_system</h3>
+IoT Plant Care System
 
-  <p align="center">
-    The best app to monitor and control your plants every need.
-    <br />
-    <a href="https://git.chalmers.se/courses/dit113/2025/group-10/group10-plant-watering"><strong>Explore the docs »</strong></a>
-  </p>
-</div>
+An IoT-based system that monitors plant conditions and automatically
+waters plants using sensor data and an Android control app.
 
+------------------------------------------------------------------------
 
+About The Project
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#project-wiki">Project Wiki</a></li>
-        <li><a href="#demo-video">Demo Video</a></li>
-      </ul>
-    </li>
-    <li><a href="#software-architecture">Software Architecture</a></li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#setup">Setup</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributions">Contributions</a></li>
-  </ol>
-</details>
-
-
-
-<!-- ABOUT THE PROJECT -->
-## About The Project
-
-Plants liven up any space, and with this project we aim to make taking care of any plant much easier with simple mointoring and automatic watering to fufill your plants needs !
-
-
-### Project Wiki
-https://git.chalmers.se/courses/dit113/2025/group-10/group10-plant-watering/-/wikis/home
-
-### Demo Video
+Demo Video
 https://www.youtube.com/watch?v=MPgn9T80wQg
 
-## Software Architecture
-The system uses a two-tier architecture, consisting of a user tier and a sensor tier. The tiers can communicate with each other using an MQTT client. Below is a diagram displaying the different tiers and their used topics.
+Plants liven up any space, but keeping them healthy can sometimes be
+difficult.
+This project simplifies plant care by combining embedded systems, IoT
+communication, and a mobile application.
 
-<img src="images/architecture_diagram.png" alt="diagram" width="800"/>
+The system continuously monitors:
 
-<!-- GETTING STARTED -->
-## Getting Started
+-   Soil moisture
+-   Water reservoir level
+-   Temperature
+-   Humidity
 
-To get a local copy up and running follow these simple steps. 
+Using this data, the system can automatically water plants, notify the
+user when conditions require attention, and allow manual control through
+a mobile application.
 
-### Prerequisites
+Main Components
 
-Things you need to use software and how to install them.
+-   Embedded controller (Arduino) – reads sensors and controls the pump
+-   Android application – displays plant data and allows user
+    interaction
+-   MQTT broker – communication layer between devices
 
-- Arduino IDE (optional)
-https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE
+------------------------------------------------------------------------
 
+Software Architecture
 
-* Android Studio
-https://developer.android.com/studio
+The system uses a two-tier architecture.
 
+Sensor Tier
 
-**Hardware:** 
+Runs on a microcontroller and is responsible for:
 
-* Microcontroller (e.g. WIO Terminal)
-* Water pump + tube 
-* Relay module
-* Power supply
-* Soil Moisture Level Sensor
-* DHT11 Temperature/Humidity Sensor
-* Ultrasonic Sensor
-* Breadboard and connecting wires
+-   Reading sensor values
+-   Controlling the water pump
+-   Publishing sensor data via MQTT
+-   Receiving commands from the mobile app
 
+User Tier
 
-### Installation
+The Android application allows users to:
 
-1. Clone the repo
-   ```sh
-   git clone https://git.chalmers.se/courses/dit113/2025/group-10/group10-plant-watering.git
-   ```
-2. Change git remote url to avoid accidental pushes to base project
-   ```sh
-   git remote set-url origin courses/dit113/2025/group-10/group10-plant-watering.git
-   git remote -v # confirm the changes
-   ```
-3. Install Arduino CLI (if using CLI workflow):
+-   Monitor plant status
+-   Adjust watering settings
+-   Trigger manual watering
+-   View watering history
 
-Download from: https://arduino.github.io/arduino-cli
+Both tiers communicate through an MQTT broker.
 
-Or install via terminal:
+------------------------------------------------------------------------
 
-macOS/Linux:
- ```sh
-curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-   ```
-   
-Windows (PowerShell):
- ```sh
-iex "& { $(irm https://aka.ms/install-arduino-cli.ps1 -UseBasicP) }"
- ```
+Project Structure
 
-4. Install required libraries using Arduino CLI:
+    plant-system
+    │
+    ├── android
+    │   └── Android application
+    │
+    ├── arduino
+    │   └── Embedded controller code
+    │
+    └── images
+        └── Architecture diagrams
 
- ```sh
-arduino-cli lib install "PubSubClient"
-arduino-cli lib install "WiFiClientSecure" 
- ```
+------------------------------------------------------------------------
 
-### Setup
+Getting Started
 
-**1. Connect the Soil Moisture Sensor:**
+Clone the repository
 
-- Attach the sensor's VCC and GND to the microcontroller's 5V and GND pins.
-- Connect the sensor's analog output (A2) to an analog input pin on the microcontroller.
+    git clone https://github.com/leonljungstrom/iot-plant-care-system.git
+    cd iot-plant-care-system
 
-**2. Set Up the Relay and Water Pump:**
+------------------------------------------------------------------------
 
-- Connect the relay module to a digital output pin (A3) on the microcontroller.
-- Wire the relay to control the water pump's power supply.
-- Ensure the pump's power source matches its voltage requirements.
+Prerequisites
 
-**3. Connect the Ultrasonic Sensor:**
+Software
 
-- VCC to 5V
-- GND to GND
-- Connect the sensor's analog output (A7) to an analog input pin on the microcontroller.
-- Mount the sensor at the top of the water reservoir, facing downward
+-   Arduino IDE
+    https://www.arduino.cc/en/software
 
-**4. Connect the Temperature and Humidity Sensor:** 
+-   Android Studio
+    https://developer.android.com/studio
 
-- VCC to 5V
-- GND to GND
-- Data to a digital pin (D5)
+Hardware
 
-**5. Position the Hardware:**
+-   Microcontroller (e.g. Wio Terminal)
+-   Water pump + tubing
+-   Relay module
+-   Soil moisture sensor
+-   DHT11 temperature/humidity sensor
+-   Ultrasonic sensor
+-   Breadboard
+-   Jumper wires
+-   Power supply
 
-- Insert the soil moisture sensor into the plant's soil.
-- Place the water pump in a water reservoir.
-- Run tubing from the pump to the plant's base.
+------------------------------------------------------------------------
 
-**6. Run Gradle:**
+Configuration
 
-Windows:
- ```sh
-gradlew build
-gradlew run
- ```
+Create the file:
 
-macOS/Linux:
- ```sh
-./gradlew build
-./gradlew run
- ```
+    plant-system/arduino/Secrets.h
 
-7. Software setup with Arduino CLI
+Example:
 
-- Install board platform (example: WIO):
+    const char* wifiSsid = "YOUR_WIFI_NAME";
+    const char* wifiPassword = "YOUR_WIFI_PASSWORD";
 
- ```sh
-arduino-cli core update-index
-arduino-cli core install Seeeduino:samd
+    const char* mqttServer = "YOUR_MQTT_SERVER";
+    const char* mqttUser = "YOUR_MQTT_USER";
+    const char* mqttPassword = "YOUR_MQTT_PASSWORD";
 
- ```
-- Compile the sketch:
+This file is ignored by Git to avoid exposing credentials.
 
- ```sh
-arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal path/to/project
- ```
+------------------------------------------------------------------------
 
-- Upload to board:
+Hardware Setup
 
- ```sh
-arduino-cli upload -p <PORT> --fqbn Seeeduino:samd:seeed_wio_terminal path/to/project
- ```
+Soil Moisture Sensor
 
-- Monitor serial output:
- ```sh
-arduino-cli monitor -p <PORT>
- ```
+-   VCC → 5V
+-   GND → GND
+-   Signal → A2
 
-Replace <PORT> with your actual device port (e.g., COM3 on Windows or /dev/ttyUSB0 on macOS/Linux)
+Insert the sensor into the plant soil.
 
-<!-- USAGE EXAMPLES -->
-## Usage
+------------------------------------------------------------------------
 
-Once your automatic plant watering system is set up and powered on, it will continuously monitor your plant's environment and water needs.
+Relay & Water Pump
 
-### How It Works
+-   Relay control pin → A3
+-   Relay switches the power supply to the pump
 
-**Soil Moisture Monitoring:**
- The soil moisture sensor checks the moisture level of the soil. If it falls below the chosen threshold, the system activates the water pump to hydrate the plant and sends a notification that the moisture level is low. 
+Place the pump in a water reservoir and connect tubing to the plant.
 
-**Water Reservoir Level:** The ultrasonic sensor measures the water level in the reservoir. If the water level is too low, the system will alert you via a notification on the app to refill the reservoir.
+------------------------------------------------------------------------
 
-**Temperature and Humidity Monitoring:** The DHT11 sensor monitors ambient temperature and humidity, and if either is out of a chosen range, the system will alert you via notification.
+Ultrasonic Sensor
 
-**Settings & Customization:** The app allows users to toggle on and off features (automatic watering and notifications) aswell as input desired ranges for moisture threshold, temperature humidity, and watering amount. Further, The app allows for scheduled watering to further customize watering to your plants needs.
+-   VCC → 5V
+-   GND → GND
+-   Signal → A7
 
-**Care Suggestions:** The app includes preset "care suggestions" based on different ecosystems plants come from. Toggling one of the provided care suggestions, sets all settings to match that ecosystem. 
+Mount the ultrasonic sensor above the reservoir to measure water level.
 
-**Watering History (Logs):** The system provides logs of watering history that can be accessed at anytime to monitor and track watering history.
+------------------------------------------------------------------------
 
-### Operating the System
+Temperature & Humidity Sensor (DHT11)
 
-**Power On:** Connect the microcontroller to a power source.
+-   VCC → 5V
+-   GND → GND
+-   Data → D5
 
-**Monitoring:** The system will automatically begin monitoring soil moisture, water reservoir level, and environmental conditions.
+------------------------------------------------------------------------
 
-**Automatic Watering:** When the soil moisture drops below the set threshold and there's sufficient water in the reservoir, the pump will activate to water the plant.
+Usage
 
-**Alerts:** 
-- If the water reservoir is low, the system will notify you to refill it. 
-- If the moisture level goes below the threshold, the system will notify you to have the option to manual water the plant or use the "water" button that activates watering in the app. 
-- If the temperature or humidity goes out of set range, the system will notify you of that as well. 
+Once powered on the system automatically monitors the plant environment.
 
+Features
 
-### Use Case
-Imagine you're going on a two-week vacation. With this system in place, your plant will continue to receive water whenever the soil becomes too dry, ensuring it stays healthy in your absence. Additionally, by monitoring temperature and humidity, you can gain insights into the environmental conditions your plant experiences, allowing for better care and adjustments as needed.
+-   Soil moisture monitoring
+-   Automatic watering
+-   Manual watering via Android app
+-   Water reservoir monitoring
+-   Temperature and humidity monitoring
+-   Care suggestion presets
+-   Watering history logs
 
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Soil Moisture Detection and Display
-- [x] Manual and Automatic Watering
-    - [x] Notification when plant needs watering
-    - [x] Automatic watering from app 
-    - [x] Setting moisture Threshold for autmatic watering 
-    - [x] Automatic watering when threshold is reached 
-    - [x] Toggle automatic watering on/off
-- [x] Water Reservoir Tracking 
-    - [x] Notify when water level is low 
-- [x] Temperature & Humidity Monitoring 
-    - [x] Alert for temperature and humidity out of desired range 
-- [x] Adjustable Settings
-- [x] Care Suggestions 
-- [x] Data logging / Watering history
-
-See [requirements wiki page](https://git.chalmers.se/courses/dit113/2025/group-10/group10-plant-watering/-/wikis/Wiki) for more details on requirements
-
-
-<!-- TEAM -->
-## Contributions
-
-Henning Nåbo: Structuring the app, restructuring the project, the CI/CD pipeline, scheduling of watering with time and date, icons and worked on the UI, video demo and bugfixes. 
-
-Esther Valero: moisture threshold- setting and for automatic watering, the UI and Arduino elements for temperature and humidity, team organization/ updating plans, and writing the ReadMe
-
-Leon Ljungström: created issues on git, arduino code for display, waterpump, soilsensor, relay module, mqtt integration, initial setup with libraries for wifi, mqtt etc.
-mqtt integration, refactoring into fragments, initial UI setup with navigation, shared values across screens, logging watering, bug fixing.
-
-Hasti Saei: set water amount, plants status, care suggestion, updating wiki, first component diagram, bug fixes and prototype .
-
-Alva Svensson: Wiki- structure and content, notifications, notification when the plant is dry, ultrasonic sensor that notifies when the water level is low, and hardware setup (cardboard box)
-
-To read detailed information on the Team organization see [team organization wiki page](https://git.chalmers.se/courses/dit113/2025/group-10/group10-plant-watering/-/wikis/Team-Organization)
-
-
+------------------------------------------------------------------------
