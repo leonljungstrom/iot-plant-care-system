@@ -1,0 +1,23 @@
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# macOS
+.DS_Store
+
+# Secrets
+plant-system/arduino/Secrets.h
+
+# Arduino build files
+*.hex
+*.bin
+build/
+
+# Android build files
+plant-system/android/.gradle/
+plant-system/android/build/
+
+# Gradle
+*.gradle
+.gradle/
